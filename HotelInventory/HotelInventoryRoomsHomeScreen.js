@@ -1,326 +1,283 @@
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
-import {
-  ActivityIndicator,
-  FlatList,
-  RefreshControl,
-  SafeAreaView,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet,
-  Pressable,
-  Text,
-  View,
-  Image,
-  Animated,
-  Modal
-} from 'react-native';
-import {globalstyles,images} from '../Styles/globalstyles';
-import { MaterialIcons } from '@expo/vector-icons';
 
-import { Ionicons, FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
-import { Dimensions } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
-import MinorHeader from '../Headers/MinorHeader';
+import { StyleSheet,
+  Pressable,Dimensions,TextInput,ActivityIndicator, Text,Animated,ScrollView, View,Image, Button, FlatList,TouchableOpacity,Modal,TouchableWithoutFeedback, Keyboard  } from 'react-native';
 
 
-// This import used to change color
 import { EventRegister } from 'react-native-event-listeners';
+// import {globalStyles} from '../Styles/GlobalStyles';
 
 import React, {useState, useEffect, useContext} from 'react';
 import useFetch from '../useFetch';
+import LottieView from 'lottie-react-native';
+
+
+import { useNavigation } from '@react-navigation/native';
+import Header from '../Headers/header';
+import {globalstyles} from '../Styles/globalstyles';
+
+import MinorHeader from '../Headers/MinorHeader';
+const {width,height} = Dimensions.get('window');
+
+import {MotiView} from 'moti';
+import Card2 from '../Shared/Card2';
 import {Picker} from '@react-native-picker/picker';
- import RoomCart from '../CartComponents/RoomCart';
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import Logo from '../Shared/Logo';
+import {AppColor} from '../constantComponents/colors'
 
-// kama unatumia APIS toa hiyo projects prop
-
-
-// gesture-tap-button, page-next-outline, MaterialCommunityIcons
-// preview, queue-play-next - MaterialIcons
-const marginBottomItem = 10;
-const paddingItem = 10;
-const imgHeight = 100;
-const sizeOfItem = imgHeight + paddingItem * 2 + marginBottomItem;
-
-
-const {width, height} = Dimensions.get('window');
- 
-
-const HotelInventoryRoomsHomeScreen =({navigation }) => {
-
-
-  const [isPending, setIsPending] = useState(false);
+export default function HotelInventoryRoomsHomeScreen({navigation}) {
 
   
- 
-//FOR SEARCHING
-const [input, setInput] = useState('');
-//console.log(input);
+
+const [isPending, setIsPending] = useState(false);
 
 const [modalVisible, setModalVisible] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState();
 
+   // const navigation = useNavigation();
 
-
-const AddRoom =() =>{
-  console.log("Room");
-   setModalVisible(true);
-}
-
- const [isLoading, setIsloading] = useState(false);
-  const Yscroll = React.useRef(new Animated.Value(0)).current;
-
-
-
-
-
-
- const [rooms, setRooms] = useState([
-  {
-    RoomName:'Room 1',
-    RoomClass:'class A',
-    RoomFloor:'Floor 4',
-    RoomImage:"",
-    id:'1'
-  },
-
- {
-    RoomName:'Room 2',
-    RoomClass:'class B',
-    RoomFloor:'Floor 1',
-    RoomImage:"",
-    id:'2'
-  },
-
-   {
-    RoomName:'Room 3',
-    RoomClass:'class C',
-    RoomFloor:'Floor 8',
-    RoomImage:"",
-    id:'3'
-  },
  
   
-    ]);
+ //FOR  APIS
+//const { services:restaurantCategories, isPending, error } = useFetch(MyDomain+'/apis/RestaurantCategories/');
 
 
-
- //FOR APIS
-//const { services:rooms, isPending, error } = useFetch(MyDomain+'/apis/Rooms/');
-
-
-
-
-
-
-
-
+ 
+  return (
+    <View style={globalstyles.container}>
+  
+   
+<MinorHeader  title="Rooms"  screenName="Hotel Inventory"/>
 
 
 
 
 
 
+<ScrollView>
 
-    
-      
+
  
 
 
-  return (
-    <View style={globalstyles.AllListcontainer}>
-
-
-<MinorHeader title="Rooms" pressMe={AddRoom} screenName="Hotel Inventory" />
 
 
 
 
 
 
-{/*MWANZO WA VIEW YA SEARCH*/}
 
-      <View 
-      style={globalstyles.SearchContainer}
-      >
+
+
+
+
+
+{/*mwanzo wa view iliyofunika items zote*/}
+<View style={{
+  flexDirection:'row',
+  flex:1,
+
+}} >
+
+
+
+
+
+{/*mwanzo wa view iliyofunika items ya 1 na ya 2*/}
+<View style={{
+  
+  flex:1,
+  marginRight:0,
+  marginLeft:10,
+  
+}}>
+
+
+
+
+
+
+
+{/*-------------MWANZO WA ITEM 1---------*/}
+      <TouchableOpacity 
+       activeOpacity={1}
+
+         onPress={() => navigation.navigate('Hotel UnBookedRooms All Classes')}>
+
+      <MotiView
+        style={[{
+          height:200,
+
+
+        },globalstyles.HoteCategorieslistContainer]}
+        from={{opacity: 0, translateY: 50}}
+        animate={{opacity: 1, translateY: 0}}
+        >
+
+      
+        <View style={[{
+          
+
+        },globalstyles.HoteCategoriesimageContainer]}>
         
-        <View
-          
-            
-       style={globalstyles.InputContainer}     
-            
+         <FontAwesome name="hotel" size={100} color={AppColor} />
 
-          >
-
-          <TouchableOpacity>
-          {/*<FontAwesome size={20} name="search" />*/}
-          
-          <TextInput
-          style={globalstyles.TextInput}
-          value={input} onChangeText ={(text) => setInput(text)}
-            
-            placeholder="Search room"
-          />
-          </TouchableOpacity>
         </View>
+     
+
+
+
+
+
+
+
+        <Text style={globalstyles.HoteCategoriesnameText}> Rooms</Text>
+     
+          
        
-      </View>
 
 
-
-{/*MWISHO WA VIEW YA SEARCH*/}
-
-
-
-
-
-
-
-<RoomCart />
-
-
-
-
-  <View style={globalstyles.CartListHeaderContainer}>
-    <Text style={globalstyles.CartListHeader}>Rooms</Text>
-    </View>
-
-
-      <FlatList
-        data={rooms}
-        renderItem={({item, index}) => {
-
-          // mwanzo kwa ajili ya search
-    if (input === ""){
-
-          return (
-            <View style={globalstyles.itemView}>
-
-            <View
-            style={globalstyles.FoodNameView}
-
-            >
-                       <Text style={globalstyles.nameText}>{item.RoomName}</Text>
-                <Text style={globalstyles.descText}>{item.RoomClass}</Text>
-             </View>
-              <View style={globalstyles.nameView}>
-                
-
-                <View style={globalstyles.priceView}>
-
-                <Text style={globalstyles.UnitText}>
-                    Floor Number  
-                  </Text>
-
-                  <Text style={globalstyles.priceText}>
-                    {item.RoomFloor}
-                  </Text>
-                  
-                </View>
-            
-
-              </View>
-              
-              <View 
-              style={globalstyles.IconContainer}
-              >
-
-                <TouchableOpacity
-                onPress={() => setModalVisible(true)}
-               >
-                <MaterialCommunityIcons 
-    name="gesture-tap-button"
-     size={30} 
-     color="green"
-    style={globalstyles.icon}
-
-     />
-                  
-                </TouchableOpacity>
-             </View>   
-             
-            </View>
-          );
-
-
-
-// hili bano la chini ni la if ya juu kama mtu akitype   
-}
-
-
-
-
-
-if(item.RoomName.toLowerCase().includes(input.toLowerCase())){
+      </MotiView>
+       </TouchableOpacity>
+  {/*-------------MWISHO WA ITEM 1---------*/}
 
 
 
 
 
 
-  return (
-            <View style={globalstyles.itemView}>
-
-            <View
-            style={globalstyles.FoodNameView}
-
-            >
-                       <Text style={globalstyles.nameText}>{item.RoomName}</Text>
-                <Text style={globalstyles.descText}>{item.RoomClass}</Text>
-             </View>
-              <View style={globalstyles.nameView}>
-                
-
-                <View style={globalstyles.priceView}>
-
-                <Text style={globalstyles.UnitText}>
-                    Floor Number  
-                  </Text>
-
-                  <Text style={globalstyles.priceText}>
-                    {item.RoomFloor}
-                  </Text>
-                  
-                </View>
-            
-
-              </View>
-              
-              <View 
-              style={globalstyles.IconContainer}
-              >
-
-                <TouchableOpacity
-                onPress={() => setModalVisible(true)}
-               >
-                <MaterialCommunityIcons 
-    name="gesture-tap-button"
-     size={30} 
-     color="green"
-    style={globalstyles.icon}
-
-     />
-                  
-                </TouchableOpacity>
-             </View>   
-             
-            </View>
-          );
 
 
 
 
 
 
-// hili bano la chini ni la if ya pili mwisho
-  }
 
 
-          // mabano ya chini ni kufunga render item
-        }}
-      />
+
+
+
+
+
+  
+
+
+
+
+
+
+</View>
+
+{/*mwisho wa view iliyofunika items 1 na ya 2*/}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/*mwazo wa view iliyofunika items ya 3 na 4*/}
+<View style={{
+  
+  flex:1,
+  marginRight:0,
+  
+}}>
+
+
+
+
+    {/*-------------MWANZO WA ITEM 3---------*/}
+      <TouchableOpacity 
+       activeOpacity={1}
+         onPress={() => navigation.navigate('Hotel BookedRooms All Classes')}>
+
+      <MotiView
+        style={[{
+          height:200,
+        },globalstyles.HoteCategorieslistContainer]}
+        from={{opacity: 0, translateY: 50}}
+        animate={{opacity: 1, translateY: 0}}
+        >
+
+      
+        <View style={[{
+          paddingBottom:0,
+
+        },globalstyles.HoteCategoriesimageContainer]}>
+        
+        <FontAwesome name="hospital-o" size={100} color={AppColor} />
+
+       
+        </View>
+     
+
+
+
+
+
+
+
+        <Text style={globalstyles.HoteCategoriesnameText}>Booked Rooms</Text>
+     
+          
+       
+
+
+      </MotiView>
+       </TouchableOpacity>
+  {/*-------------MWISHO WA ITEM 3---------*/}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</View>
+
+{/*mwisho wa view iliyofunika items ya 3 na ya 4*/}
+
+
+
+
+
+
+
+
+
+
+</View>
+{/*mwisho wa view iliyofunika items zote*/}
+
+
+
+
+
 
 
 
@@ -347,29 +304,43 @@ if(item.RoomName.toLowerCase().includes(input.toLowerCase())){
       >
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
           <View style={globalstyles.ModalView}>
-            <Text style={{ marginLeft:90,fontSize:15 }}>BOOK ROOM</Text>
+            <Text style={{ marginLeft:90,fontSize:15 }}>ADD NEW SALE</Text>
 
             <View style={globalstyles.form}>
+
                 <View style={{ marginTop:20 }}>
-                    <Text style={{ fontSize:20, marginLeft:3 }}>Room Name</Text>
+                    <Text style={{ fontSize:20, marginLeft:3 }}>Product Name</Text>
                     < View style={globalstyles.input}>
                         <FontAwesome style={globalstyles.icon} name='pencil'/>
-                        <TextInput style={globalstyles.textInput}  placeholder='Room Name' />
+                        <TextInput style={globalstyles.textInput}  placeholder='Product Name' />
                     </View>
                 </View>
 
-                <View  style={{ marginTop:20 }}>
-                    <Text style={{ fontSize:20, marginLeft:3 }}>Room Class</Text>
-                    < View style={globalstyles.input}>
-                        <FontAwesome style={globalstyles.icon} name='plus-circle'/>
-                        <TextInput style={globalstyles.textInput}  placeholder='Room Class' />
-                    </View>
-                </View>
-
-                <View  style={{ marginTop:20 }}>
                    
-              
+                <View style={{ marginTop:20 }}>
+                    <Text style={{ fontSize:20, marginLeft:3 }}>Product Price</Text>
+                    < View style={globalstyles.input}>
+                        <FontAwesome style={globalstyles.icon} name='pencil'/>
+                        <TextInput style={globalstyles.textInput}  placeholder='Product Price' />
+                    </View>
                 </View>
+
+
+                 <View style={{ marginTop:20 }}>
+                    <Text style={{ fontSize:20, marginLeft:3 }}>Product Quantity</Text>
+                    < View style={globalstyles.input}>
+                        <FontAwesome style={globalstyles.icon} name='pencil'/>
+                        <TextInput style={globalstyles.textInput}  placeholder='Product Quantity' />
+                    </View>
+                </View>
+
+
+
+
+
+               
+
+                
 
 
             </View>
@@ -384,7 +355,7 @@ if(item.RoomName.toLowerCase().includes(input.toLowerCase())){
                         <Text>CLOSE</Text>
                     </Pressable>
                     <Pressable style={globalstyles.ButtonAdd}  onPress={() => setModalVisible(false)} >
-                        <Text>CONFIRM</Text>
+                        <Text>ADD PRODUCT</Text>
                     </Pressable>
             </View>
           </View>
@@ -405,23 +376,7 @@ if(item.RoomName.toLowerCase().includes(input.toLowerCase())){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</ScrollView>
 
 
 
@@ -429,28 +384,13 @@ if(item.RoomName.toLowerCase().includes(input.toLowerCase())){
 
     </View>
   );
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-export default HotelInventoryRoomsHomeScreen;
-
-
+}
 
 const styles = StyleSheet.create({
+ 
+
+
+
 
 
 });

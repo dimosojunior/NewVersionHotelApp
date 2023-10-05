@@ -8,3 +8,6 @@ const COLORS = {
 };
 
 export default COLORS;
+
+
+export const AppColor = "green"

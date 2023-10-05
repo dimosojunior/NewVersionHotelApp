@@ -250,7 +250,7 @@ if(item.RoomName.toLowerCase().includes(input.toLowerCase())){
 
 
 
-<MinorHeader title="Units" pressMe={AddBooked} screenName="Hotel Inventory Rooms"/>
+<MinorHeader title="Booked Rooms" pressMe={AddBooked} screenName="Hotel NewSale Rooms"/>
 
 
 

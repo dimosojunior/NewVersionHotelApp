@@ -22,14 +22,39 @@ const navigation = useNavigation();
   }
 
 
+   const [greeting, setGreeting] = useState('');
+
+  // Function to get the current time and set the greeting based on the time
+  const setGreetingBasedOnTime = () => {
+    const currentHour = new Date().getHours();
+
+    if (currentHour >= 5 && currentHour < 12) {
+      setGreeting('Good Morning');
+    } else if (currentHour >= 12 && currentHour <= 15) {
+      setGreeting('Good Afternoon');
+    } else if (currentHour > 15 && currentHour <= 18){
+      setGreeting('Good Evening');
+    } else {
+      setGreeting('Good Night');
+    }
+
+  };
+
+  // Use useEffect to set the initial greeting and update it when needed
+  useEffect(() => {
+    setGreetingBasedOnTime();
+  }, []);
+
+
+
   return (
   
 <View style={globalstyles.headerHeaderFile}>
       <MaterialIcons name='menu' 
       size={28} onPress={openMenu} style={globalstyles.iconHeaderFile} />
 
-        <Text style={globalstyles.headerTextHeaderFile}>{title}</Text>
-<Image source={require('../assets/me.jpg')} 
+        <Text style={globalstyles.headerTextHeaderFile}>{greeting}</Text>
+<Image source={require('../assets/easy.jpg')} 
   style={globalstyles.headerImageHeaderFile} />
 
         </View>  

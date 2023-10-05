@@ -11,6 +11,7 @@ import { EventRegister } from 'react-native-event-listeners';
 
 import React, {useState, useEffect, useContext} from 'react';
 import {globalstyles, images} from '../Styles/globalstyles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function MinorHeader({title,pressMe,screenName}) {
 
@@ -21,6 +22,28 @@ const navigation = useNavigation();
     navigation.navigate(screenName);
 
   }
+
+
+    const [userData, setUserData] = useState({});
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const userDataJSON = await AsyncStorage.getItem('userData');
+      if (userDataJSON) {
+        const parsedUserData = JSON.parse(userDataJSON);
+        setUserData(parsedUserData);
+        
+        console.log(parsedUserData);
+        console.log(userDataJSON);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
   return (
@@ -64,22 +87,11 @@ style={{
         />
 
     <Text style={globalstyles.headerTextArticleHeaderFile
-      
+    
     }>{title}</Text>
 </View>
 
 
-<View >
-    <FontAwesome name='plus' 
-      size={20} onPress={pressMe}
-      color="black"
-      style={{
-        marginLeft: 10,
-      }}
-        
-  style={globalstyles.headerImageArticleHeaderFile} />
-
-</View>
      
 
   

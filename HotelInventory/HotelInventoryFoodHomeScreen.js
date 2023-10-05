@@ -24,6 +24,7 @@ import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import MinorHeader from '../Headers/MinorHeader';
+import LotterViewScreen from '../Screens/LotterViewScreen';
 
 
 // This import used to change color
@@ -33,6 +34,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import useFetch from '../useFetch';
 import {Picker} from '@react-native-picker/picker';
 import FoodCart from '../CartComponents/FoodCart';
+import {EndPoint} from '../constantComponents/constants';
 
 // kama unatumia APIS toa hiyo projects prop
 
@@ -51,7 +53,7 @@ const {width, height} = Dimensions.get('window');
 const HotelInventoryFoodHomeScreen =({navigation }) => {
 
 
-  const [isPending, setIsPending] = useState(false);
+  //const [isPending, setIsPending] = useState(false);
 
   
  
@@ -66,6 +68,9 @@ const [modalVisibleAddProduct, setModalVisibleAddProduct] = useState(false);
   
 
 
+
+    
+
 const AddFood =() =>{
   console.log("Food");
    setModalVisibleAddProduct(true);
@@ -78,47 +83,37 @@ const AddFood =() =>{
 
 
 
+ // const [inventory, setInventory] = useState([
+ //  {
+ //    CategoryName:'Pizza',
+ //    CategoryImage:require('../assets/room.png'),
+ //    Store:50,
+ //    id:'1'
+ //  },
 
- const [drinks, setDrinks] = useState([
-  {
-    FoodName1:'Pilau',
-    Unit:'Sahani 1',
-    FoodName2:'Nyama',
-    FoodImage:require('../assets/i2.png'),
-    DrinkPrice:2000,
-    id:'1'
-  },
-
- {
-    FoodName1:'Wali',
-    Unit:'Sahani 1',
-    FoodName2:'Maharage',
-    FoodImage:require('../assets/i3.png'),
-    DrinkPrice:3000,
-    id:'2'
-  },
-
-   {
-    FoodName1:'Ugali',
-    Unit:'Sahani 1',
-    FoodName2:'Maharage',
-    FoodImage:require('../assets/i4.png'),
-    DrinkPrice:4000,
-    id:'3'
-  },
+ //  {
+ //    CategoryName:'Other Food',
+ //    CategoryImage:require('../assets/food.png'),
+ //    Store:150,
+ //    id:'2'
+ //  },
+ //  // {CategoryName:'Drinks',CategoryImage:require('../assets/drinks.png'),id:'6'},
+ //  // {CategoryName:'Others',CategoryImage:require('../assets/otherinentory.png'), id:'5'},
  
-  
-    ]);
-
+ //    ]);
 
 
  //FOR APIS
-//const { services:food, isPending, error } = useFetch(MyDomain+'/apis/Food/');
+const { datas:inventory,setDatas:setInventory, isPending, error } = useFetch(EndPoint+'/PostData/PostHotelFoodCategories/');
 
 
 
-
-
+const [CategoryName, setCategoryName] = useState('');
+    const move = (CategoryName) =>{
+      setCategoryName(CategoryName);
+      console.log(CategoryName)
+      navigation.navigate('Hotel Inventory ' +CategoryName);
+    }
 
 
 
@@ -134,6 +129,11 @@ const AddFood =() =>{
 
 
   return (
+
+    <>
+    {!isPending ? (
+
+
     <View style={globalstyles.AllListcontainer}>
 
 
@@ -144,167 +144,66 @@ const AddFood =() =>{
 
 
 
-{/*MWANZO WA VIEW YA SEARCH*/}
-
-      <View 
-      style={globalstyles.SearchContainer}
-      >
-        
-        <View
-          
-            
-       style={globalstyles.InputContainer}     
-            
-
-          >
-
-          <TouchableOpacity>
-          {/*<FontAwesome size={20} name="search" />*/}
-          
-          <TextInput
-          style={globalstyles.TextInput}
-          value={input} onChangeText ={(text) => setInput(text)}
-            
-            placeholder="Search food"
-          />
-          </TouchableOpacity>
-        </View>
-       
-      </View>
-
-
-
-{/*MWISHO WA VIEW YA SEARCH*/}
 
 
 
 
 
-<FoodCart />
 
 
-
-<View style={globalstyles.CartListHeaderContainer}>
-    <Text style={globalstyles.CartListHeader}>Food</Text>
-    </View>
-
+{inventory && inventory.length > 0 ? (
 
 
 
       <FlatList
-        data={drinks}
+        data={inventory}
         renderItem={({item, index}) => {
 
-          // mwanzo kwa ajili ya search
-    if (input === ""){
-
+        
           return (
+           <>
+            <TouchableOpacity 
+             activeOpacity={1}
+             onPress={() => navigation.navigate('Hotel Inventory Food Products', item)}
+            >
             <View style={globalstyles.itemView}>
             <View
             style={globalstyles.FoodNameView}
 
             >
-                       <Text style={globalstyles.nameText}>{item.FoodName1}</Text>
-                <Text style={globalstyles.descText}>{item.FoodName2}</Text>
-             </View>
-              <View style={globalstyles.nameView}>
+                       <Text style={globalstyles.nameText}>{item.CategoryName}</Text>
                 
+             </View>
+             
+                
+                 <View style={globalstyles.priceView}>
+                <Text style={globalstyles.UnitText}>
+                    {item.unit ? item.Unit : 'Sahani'} 
+                  </Text>
+                   </View>
+                   
 
                 <View style={globalstyles.priceView}>
 
                 <Text style={globalstyles.UnitText}>
-                    {item.Unit}  
+                    Qty  
                   </Text>
 
                   <Text style={globalstyles.priceText}>
-                    {item.DrinkPrice}/=
+                    {item.Store}
                   </Text>
                   
                 </View>
             
-
-              </View>
+           
               
-              <View 
-              style={globalstyles.IconContainer}
-              >
-
-                <TouchableOpacity
-                onPress={() => setModalVisible(true)}
-               >
-                <MaterialCommunityIcons 
-    name="gesture-tap-button"
-     size={30} 
-     color="green"
-    style={globalstyles.ClickableIcon}
-
-     />
-                  
-                </TouchableOpacity>
-             </View>   
-             
-            </View>
-          );
-
-
-
-// hili bano la chini ni la if ya juu kama mtu akitype   
-}
-
-
-
-
-
-if(item.FoodName1.toLowerCase().includes(input.toLowerCase())){
-
-
-
-
-
-
-
-     return (
-            <View style={globalstyles.itemView}>
-            <View
-            style={globalstyles.FoodNameView}
-
-            >
-                       <Text style={globalstyles.nameText}>{item.FoodName1}</Text>
-                <Text style={globalstyles.descText}>{item.FoodName2}</Text>
-             </View>
-              <View style={globalstyles.nameView}>
-                
-
-                <View style={globalstyles.priceView}>
-
-                  <Text style={globalstyles.priceText}>
-                    {item.DrinkPrice}/=
-                  </Text>
-                  
-                </View>
+              
             
-
-              </View>
-              
-              <View 
-              style={globalstyles.IconContainer}
-              >
-
-                <TouchableOpacity
-                onPress={() => setModalVisible(true)}
-               >
-                <MaterialCommunityIcons 
-    name="gesture-tap-button"
-     size={30} 
-     color="green"
-    style={globalstyles.icon}
-
-     />
-                  
-                </TouchableOpacity>
-             </View>   
              
             </View>
+            </TouchableOpacity >
+            </>
+
           );
 
 
@@ -313,8 +212,6 @@ if(item.FoodName1.toLowerCase().includes(input.toLowerCase())){
 
 
 
-// hili bano la chini ni la if ya pili mwisho
-  }
 
 
           // mabano ya chini ni kufunga render item
@@ -324,6 +221,14 @@ if(item.FoodName1.toLowerCase().includes(input.toLowerCase())){
 
 
 
+ ) :(
+
+     <View style={globalstyles.NoProductContainerContainer}>
+  <Text style={globalstyles.NoProductText}>No Data</Text>
+</View>
+
+
+  )} 
 
 
 
@@ -332,98 +237,6 @@ if(item.FoodName1.toLowerCase().includes(input.toLowerCase())){
 
 
 
-
-
-
-
-{/*MODAL FOR MAKING ORDER*/}
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-          <View style={globalstyles.ModalView}>
-            <Text style={{ marginLeft:90,fontSize:15 }}>ORDER PRODUCT</Text>
-
-            <View style={globalstyles.form}>
-                <View style={{ marginTop:20 }}>
-                    <Text style={{ fontSize:20, marginLeft:3 }}>Product Unit</Text>
-                    < View style={globalstyles.input}>
-                        <FontAwesome style={globalstyles.InputIcon} name='pencil'/>
-                        <TextInput style={globalstyles.textInput}  placeholder='Product Unit' />
-                    </View>
-                </View>
-
-                <View  style={{ marginTop:20 }}>
-                    <Text style={{ fontSize:20, marginLeft:3 }}>Total Price</Text>
-                    < View style={globalstyles.input}>
-                        <FontAwesome style={globalstyles.InputIcon} name='plus-circle'/>
-                        <TextInput style={globalstyles.textInput}  placeholder='Total Price' />
-                    </View>
-                </View>
-
-                <View  style={{ marginTop:20 }}>
-                   
-              < View style={globalstyles.inputTax}>
-                        <Text style={globalstyles.TaxType}>
-                            Tax Type
-                        </Text>
-
-                 <View style={globalstyles.picker}>
-
-                        
-                            <Picker
-                            style={globalstyles.pickerInput}
-                            selectedValue={selectedLanguage}
-                            onValueChange={(itemValue, itemIndex) =>
-                                setSelectedLanguage(itemValue)
-                            }>
-                            <Picker.Item label="Select Tax" value="Julius" />
-                             <Picker.Item label="Kasamka" value="Kasamka" />
-                             <Picker.Item label="Dimoso" value="Dimoso" />
-                             <Picker.Item label="Neema" value="Neema" />
-                                
-                            </Picker>
-
-                     </View>
-                      
-                        
-                        {/* <InputModeOptions placeholder="Select Tax"></InputModeOptions> */}
-                        {/* <TextInput style={globalstyles.textInput}  placeholder='Unit Price' /> */}
-                    </View>
-                </View>
-
-
-            </View>
-
-            <View style={{ marginTop:20 }}>
-                <Text style={{ fontSize:20, fontWeight:"bold" }}>Below are Optional Details</Text>
-            </View>
-
-            <View style={globalstyles.ButtonConatiner}>
-                    <Pressable style={globalstyles.ButtonScan}  onPress={() => setModalVisible(false)} >
-                        <Text>SCAN</Text>
-                    </Pressable>
-                    <Pressable style={globalstyles.ButtonBarcode}  onPress={() => setModalVisible(false)} >
-                        <Text>...or Enter Barcode</Text>
-                    </Pressable>
-            </View>
-            
-
-            <View style={globalstyles.ButtonConatiner}>
-                    <Pressable style={globalstyles.ButtonClose}  onPress={() => setModalVisible(false)} >
-                        <Text>CLOSE</Text>
-                    </Pressable>
-                    <Pressable style={globalstyles.ButtonAdd}  onPress={() => setModalVisible(false)} >
-                        <Text>CONFIRM</Text>
-                    </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
 
 
 
@@ -492,10 +305,14 @@ if(item.FoodName1.toLowerCase().includes(input.toLowerCase())){
 
             <View style={globalstyles.ButtonConatiner}>
                     <Pressable style={globalstyles.ButtonClose}  onPress={() => setModalVisibleAddProduct(false)} >
-                        <Text>CLOSE</Text>
+                        <Text  style={{
+                          color:'white'
+                        }}>CLOSE</Text>
                     </Pressable>
                     <Pressable style={globalstyles.ButtonAdd}  onPress={() => setModalVisibleAddProduct(false)} >
-                        <Text>ADD PRODUCT</Text>
+                        <Text  style={{
+                          color:'white'
+                        }}>ADD PRODUCT</Text>
                     </Pressable>
             </View>
           </View>
@@ -520,6 +337,17 @@ if(item.FoodName1.toLowerCase().includes(input.toLowerCase())){
 
 
     </View>
+
+
+    
+      ):(
+
+<LotterViewScreen />
+
+)}
+
+    </>
+  
   );
 };
 

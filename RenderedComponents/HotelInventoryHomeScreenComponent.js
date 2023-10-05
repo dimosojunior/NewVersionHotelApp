@@ -32,11 +32,11 @@ const HotelInventoryHomeScreenComponent =({inventory}) => {
 const navigation = useNavigation();
 
 // HII NI FUNCTION YAKUNAVIGATE KWENDA KWENYE KOZI ZA CHUO HUSIKA
-const [CategoryName, setCategoryName] = useState('');
-    const move = (CategoryName) =>{
-      setCategoryName(CategoryName);
-      console.log(CategoryName)
-      navigation.navigate('Hotel Inventory ' +CategoryName);
+const [Category, setCategory] = useState('');
+    const move = (Category) =>{
+      setCategory(Category);
+      console.log(Category)
+      navigation.navigate('Hotel Inventory ' +Category);
     }
 //INAISHIA HAPA HII NI FUNCTION YAKUNAVIGATE KWENDA KWENYE KOZI ZA CHUO HUSIKA
   
@@ -68,7 +68,8 @@ const [CategoryName, setCategoryName] = useState('');
 
 
        <TouchableOpacity 
-         onPress={() => move(item.CategoryName)}>
+       activeOpacity={1}
+         onPress={() => move(item.Category)}>
 
       <MotiView
         style={globalstyles.listContainer}
@@ -81,8 +82,8 @@ const [CategoryName, setCategoryName] = useState('');
         
           <Image 
           // kama unatumia APIS
-          //source={{uri: item.CategoryImage}}
-          source={item.CategoryImage} 
+          source={{uri: item.CategoryImage}}
+          //source={item.CategoryImage} 
           style={globalstyles.image} 
           />
        
@@ -102,7 +103,7 @@ const [CategoryName, setCategoryName] = useState('');
 
 
  
-        <Text style={globalstyles.nameText}>{item.CategoryName}</Text>
+        <Text style={globalstyles.nameText}>{item.Category}</Text>
         
 
           

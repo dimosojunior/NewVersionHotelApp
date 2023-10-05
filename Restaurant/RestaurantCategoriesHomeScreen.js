@@ -25,6 +25,8 @@ import {MotiView} from 'moti';
 import Card2 from '../Shared/Card2';
 import {Picker} from '@react-native-picker/picker';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import Logo from '../Shared/Logo';
+import {AppColor} from '../constantComponents/colors'
 
 export default function RestaurantCategoriesHomeScreen({navigation}) {
 
@@ -54,14 +56,14 @@ const [modalVisible, setModalVisible] = useState(false);
     <View style={globalstyles.container}>
   
    
-<Header title="Good Morning" />
+<Header  />
 
 
 
 
 
 
-
+<ScrollView>
 
 
   <Card2>
@@ -80,7 +82,7 @@ const [modalVisible, setModalVisible] = useState(false);
 
 
 
-<ScrollView>
+
 
 
 {/*mwanzo wa view iliyofunika items zote*/}
@@ -111,7 +113,9 @@ const [modalVisible, setModalVisible] = useState(false);
 
 {/*-------------MWANZO WA ITEM 1---------*/}
       <TouchableOpacity 
-         onPress={() => setModalVisible(true)}>
+       activeOpacity={1}
+
+         onPress={() => navigation.navigate('Restaurant NewSale')}>
 
       <MotiView
         style={[{
@@ -129,13 +133,8 @@ const [modalVisible, setModalVisible] = useState(false);
 
         },globalstyles.HoteCategoriesimageContainer]}>
         
-          <Image 
-          // kama unatumia APIS
-          //source={{uri: item.CategoryImage}}
-          source={require('../assets/sales.png')} 
-          style={globalstyles.HoteCategoriesimage} 
-          />
-       
+         <FontAwesome name="edit" size={100} color={AppColor} />
+
         </View>
      
 
@@ -174,7 +173,8 @@ const [modalVisible, setModalVisible] = useState(false);
 
 
   {/*-------------MWANZO WA ITEM 2---------*/}
-      <TouchableOpacity 
+      <TouchableOpacity
+       activeOpacity={1} 
          onPress={() => navigation.navigate('Restaurant Customers')}>
 
       <MotiView
@@ -190,12 +190,9 @@ const [modalVisible, setModalVisible] = useState(false);
       
         <View style={globalstyles.HoteCategoriesimageContainer}>
         
-          <Image 
-          // kama unatumia APIS
-          //source={{uri: item.CategoryImage}}
-          source={require('../assets/customers.png')} 
-          style={globalstyles.HoteCategoriesimage} 
-          />
+         
+        <FontAwesome name="user-circle-o" size={70} color={AppColor} />
+
        
         </View>
      
@@ -254,6 +251,7 @@ const [modalVisible, setModalVisible] = useState(false);
 
     {/*-------------MWANZO WA ITEM 3---------*/}
       <TouchableOpacity 
+       activeOpacity={1}
          onPress={() => navigation.navigate('Restaurant Reports')}>
 
       <MotiView
@@ -270,12 +268,8 @@ const [modalVisible, setModalVisible] = useState(false);
 
         },globalstyles.HoteCategoriesimageContainer]}>
         
-          <Image 
-          // kama unatumia APIS
-          //source={{uri: item.CategoryImage}}
-          source={require('../assets/reports.png')} 
-          style={globalstyles.HoteCategoriesimage} 
-          />
+        <FontAwesome name="bar-chart" size={70} color={AppColor} />
+
        
         </View>
      
@@ -316,6 +310,7 @@ const [modalVisible, setModalVisible] = useState(false);
 
   {/*-------------MWANZO WA ITEM 4---------*/}
       <TouchableOpacity 
+       activeOpacity={1}
          onPress={() => navigation.navigate('Restaurant Inventory')}>
 
       <MotiView
@@ -333,12 +328,7 @@ const [modalVisible, setModalVisible] = useState(false);
           // marginTop:52,
         },globalstyles.HoteCategoriesimageContainer]}>
         
-          <Image 
-          // kama unatumia APIS
-          //source={{uri: item.CategoryImage}}
-          source={require('../assets/inventory.png')} 
-          style={globalstyles.HoteCategoriesimage} 
-          />
+         <FontAwesome name="pie-chart" size={100}  color={AppColor} />
        
         </View>
      
@@ -384,7 +374,7 @@ const [modalVisible, setModalVisible] = useState(false);
 
 
 
-</ScrollView>
+
 
 
 
@@ -476,6 +466,18 @@ const [modalVisible, setModalVisible] = useState(false);
 
 
 
+
+
+<Logo />
+
+
+
+
+
+
+
+
+</ScrollView>
 
 
 

@@ -14,17 +14,20 @@ import {
   Image,
   Animated,
   Modal,
-  Pressable
+  Pressable,
+  Alert,
+  ScrollView
 
 } from 'react-native';
 import {globalstyles,images} from '../Styles/globalstyles';
 import { MaterialIcons } from '@expo/vector-icons';
+import LotterViewScreen from '../Screens/LotterViewScreen';
 
 import { Ionicons, FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
 import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import MinorHeader from '../Headers/MinorHeader';
+import AddMinorHeader from '../Headers/AddMinorHeader';
 
 
 // This import used to change color
@@ -33,6 +36,7 @@ import { EventRegister } from 'react-native-event-listeners';
 import React, {useState, useEffect, useContext} from 'react';
 import useFetch from '../useFetch';
 import {Picker} from '@react-native-picker/picker';
+import {EndPoint} from '../constantComponents/constants';
 
 // kama unatumia APIS toa hiyo projects prop
 
@@ -51,7 +55,7 @@ const {width, height} = Dimensions.get('window');
 const RetailsCustomersHomeScreen =({navigation }) => {
 
 
-  const [isPending, setIsPending] = useState(false);
+  //const [isPending, setIsPending] = useState(false);
 
   
  
@@ -61,7 +65,8 @@ const [input, setInput] = useState('');
 
 const [modalVisible, setModalVisible] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState();
-
+const [modalVisibleAddProduct, setModalVisibleAddProduct] = useState(false);
+  
 
  const [isLoading, setIsloading] = useState(false);
   const Yscroll = React.useRef(new Animated.Value(0)).current;
@@ -70,70 +75,15 @@ const [modalVisible, setModalVisible] = useState(false);
 
 
 
- const [customers, setCustomers] = useState([
-  {
-    FirstName:'Daudi',
-    SecondName:'El',
-    LastName:'Junior',
-    CustomerLocation:'Mbeya, Iyunga',
-    CustomerImage:require('../assets/me.jpg'),
-    id:'1'
-  },
-
- {
-    FirstName:'Sharifa',
-    SecondName:'Saidi',
-    LastName:'Abduli',
-    CustomerLocation:'Tanga',
-    CustomerImage:require('../assets/icon1.jpeg'),
-    id:'2'
-  },
-
-
- {
-    FirstName:'Cornel',
-    SecondName:'Mtavangu',
-    LastName:'Issa',
-    CustomerLocation:'Mbeya, Nzwovye',
-    CustomerImage:require('../assets/icon2.png'),
-    id:'3'
-  },
-
-   {
-    FirstName:'Isack',
-    SecondName:'Greyson',
-    LastName:'Kasamka',
-    CustomerLocation:'Mbeya,Cocacola',
-    CustomerImage:require('../assets/icon1.jpeg'),
-    id:'4'
-  },
-
-
-{
-    FirstName:'Dimoso',
-    SecondName:'El',
-    LastName:'Junior',
-    CustomerLocation:'Mbeya, Iyunga',
-    CustomerImage:require('../assets/me.jpg'),
-    id:'5'
-  },
-
-
-
-
- 
-  
-    ]);
-
-
 
  //FOR APIS
-//const { services:ccustomers, isPending, error } = useFetch(MyDomain+'/apis/RetailsCustomers/');
+const { datas:myItems,setDatas:setMyItems, isPending, error } = useFetch(EndPoint+'/PostData/PostRetailsCustomers/');
+
 
 
 const AddCustomer =() =>{
   console.log("Add Retails Customer");
-  setModalVisible(true);
+  setModalVisibleAddProduct(true);
 }
 
 
@@ -144,6 +94,68 @@ const AddCustomer =() =>{
 
 
 
+   const [product, setProduct] = useState({
+    CustomerFullName: '',
+    PhoneNumber: '',
+    CustomerAddress: '',
+    
+
+  });
+
+ const handleSubmit = () => {
+  if (
+    product.CustomerFullName.trim() === '' ||
+    // product.product_second_name.trim() === '' ||
+    product.PhoneNumber.trim() === '' ||
+    product.CustomerAddress.trim() === ''
+  ) {
+    // Validation: Check if any field is empty
+    Alert.alert('Error', 'All fields are required');
+  } else if (
+    isNaN(Number(product.PhoneNumber))
+  ) {
+    // Validation: Check if PhoneNumber and CustomerAddress are not integers
+    Alert.alert('Error', 'Enter valid Phone number');
+  } else {
+    // Validation passed, make the API request
+    
+const formData = {
+      ...product,
+      //productCategory: 'Beers', // Set the value of ProductCategory here
+    };
+    fetch(EndPoint + '/PostData/PostRetailsCustomers/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle success response, maybe navigate to a success screen
+        console.log('Customer added:', data);
+        Alert.alert('Success', 'Customer added successfully');
+        setModalVisibleAddProduct(false);
+        // Clear the form after successful submission
+        setProduct({
+          CustomerFullName: '',
+          PhoneNumber: '',
+          CustomerAddress: '',
+        });
+
+         // Add the newly added product to the productList state
+    setMyItems((prevmyItems) => [ data, ...prevmyItems]);
+
+      })
+      .catch((error) => {
+        // Handle error, maybe show an error message to the user
+        console.error('Error adding Customer:', error);
+        Alert.alert('Error', 'Failed to add Customer');
+      });
+  }
+};
+
+
 
     
       
@@ -151,10 +163,15 @@ const AddCustomer =() =>{
 
 
   return (
+
+    <>
+    {!isPending ? (
+
+
     <View style={globalstyles.AllListcontainer}>
 
 
-<MinorHeader title="Customers" pressMe={AddCustomer} screenName="Retails Category" />
+<AddMinorHeader title="Customers" pressMe={AddCustomer} screenName="Retails Category" />
 
 
 
@@ -206,11 +223,11 @@ const AddCustomer =() =>{
 
 
 
-
+{myItems && myItems.length > 0 ? (
 
 
       <FlatList
-        data={customers}
+        data={myItems}
         renderItem={({item, index}) => {
 
            // mwanzo kwa ajili ya search
@@ -221,13 +238,13 @@ const AddCustomer =() =>{
             <View style={globalstyles.itemView}>
             <View style={globalstyles.ImageListContainer}>
               <Image
-                //source={{uri: item.data.imageUrl}}
-                source = {item.CustomerImage}
+               source={require('../assets/icon2.png')}
+                //source = {item.CustomerImage}
                 style={globalstyles.itemImage}
               /></View>
               <View style={globalstyles.nameView}>
-                <Text style={globalstyles.nameText}>{item.FirstName} {item.SecondName}</Text>
-                <Text style={globalstyles.LastNameText}>{item.LastName}</Text>
+                <Text style={globalstyles.nameText}>{item.CustomerFullName} {item.SecondName}</Text>
+                <Text style={globalstyles.LastNameText}>{item.PhoneNumber}</Text>
 
                
             
@@ -248,7 +265,7 @@ const AddCustomer =() =>{
 
 
 
-if(item.FirstName.toLowerCase().includes(input.toLowerCase())){
+if(item.CustomerFullName.toLowerCase().includes(input.toLowerCase())){
 
 
 
@@ -259,13 +276,13 @@ if(item.FirstName.toLowerCase().includes(input.toLowerCase())){
             <View style={globalstyles.itemView}>
             <View style={globalstyles.ImageListContainer}>
               <Image
-                //source={{uri: item.data.imageUrl}}
-                source = {item.CustomerImage}
+                source={require('../assets/icon2.png')}
+                //source = {item.CustomerImage}
                 style={globalstyles.itemImage}
               /></View>
               <View style={globalstyles.nameView}>
-                <Text style={globalstyles.nameText}>{item.FirstName} {item.SecondName}</Text>
-                <Text style={globalstyles.LastNameText}>{item.LastName}</Text>
+                <Text style={globalstyles.nameText}>{item.CustomerFullName} {item.SecondName}</Text>
+                <Text style={globalstyles.LastNameText}>{item.PhoneNumber}</Text>
 
                
             
@@ -294,6 +311,14 @@ if(item.FirstName.toLowerCase().includes(input.toLowerCase())){
 
 
 
+) :(
+
+     <View style={globalstyles.NoProductContainerContainer}>
+  <Text style={globalstyles.NoProductText}>No any customer added</Text>
+</View>
+
+
+  )} 
 
 
 
@@ -301,78 +326,127 @@ if(item.FirstName.toLowerCase().includes(input.toLowerCase())){
 
 
 
-{/*MODAL FOR MAKING ORDER*/}
 
+{/*-----------------MODAL FOR ADD PRODUCT---------------*/}
+
+
+
+      
       <Modal
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
+        visible={modalVisibleAddProduct}
+        onRequestClose={() => setModalVisibleAddProduct(false)}
       >
+
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
           <View style={globalstyles.ModalView}>
             <Text style={{ marginLeft:90,fontSize:15 }}>ADD CUSTOMER</Text>
+<ScrollView keyboardShouldPersistTaps="handled">
+            
+           {/* ADD PRODUCT  Form*/}
+           
+            
 
-            <View style={globalstyles.form}>
 
+{/*mwanzo wa form*/}
+     <View style={globalstyles.form}>
+               {/*mwanzo  wa field*/}
                 <View style={{ marginTop:20 }}>
-                    <Text style={{ fontSize:20, marginLeft:3 }}>First Name</Text>
+                    <Text style={{ fontSize:16, marginLeft:3 }}> Customer Full Name</Text>
                     < View style={globalstyles.input}>
-                        <FontAwesome style={globalstyles.icon} name='pencil'/>
-                        <TextInput style={globalstyles.textInput}  placeholder='First Name' />
+                        <FontAwesome style={globalstyles.InputIcon} name='pencil'/>
+                        <TextInput 
+                        style={globalstyles.textInput}  
+                        placeholder='Customer Full Name' 
+                        onChangeText={(text) =>
+          setProduct({ ...product, CustomerFullName: text })
+        }
+        value={product.CustomerFullName}
+                           />
                     </View>
                 </View>
+              {/*mwisho wa field*/}
 
-                   
+             
+
+
+                {/*mwanzo  wa field*/}
                 <View style={{ marginTop:20 }}>
-                    <Text style={{ fontSize:20, marginLeft:3 }}>Second Name</Text>
+                    <Text style={{ fontSize:16, marginLeft:3 }}> Customer Address</Text>
                     < View style={globalstyles.input}>
-                        <FontAwesome style={globalstyles.icon} name='pencil'/>
-                        <TextInput style={globalstyles.textInput}  placeholder='Second Name' />
+                        <FontAwesome style={globalstyles.InputIcon} name='pencil'/>
+                        <TextInput 
+                        style={globalstyles.textInput}  
+                        placeholder='Customer Address' 
+                        onChangeText={(text) =>
+          setProduct({ ...product, CustomerAddress: text })
+        }
+        value={product.CustomerAddress}
+      
+                           />
                     </View>
                 </View>
+              {/*mwisho wa field*/}
 
 
-                 <View style={{ marginTop:20 }}>
-                    <Text style={{ fontSize:20, marginLeft:3 }}>Last Name</Text>
+                 
+
+
+                {/*mwanzo  wa field*/}
+                <View style={{ marginTop:20 }}>
+                    <Text style={{ fontSize:16, marginLeft:3 }}> Phone Number</Text>
                     < View style={globalstyles.input}>
-                        <FontAwesome style={globalstyles.icon} name='pencil'/>
-                        <TextInput style={globalstyles.textInput}  placeholder='Last Name' />
+                        <FontAwesome style={globalstyles.InputIcon} name='pencil'/>
+                        <TextInput 
+                        style={globalstyles.textInput}  
+                        placeholder='Phone Number' 
+                        onChangeText={(text) =>
+          setProduct({ ...product, PhoneNumber: text })
+        }
+        value={product.PhoneNumber}
+        keyboardType="numeric" // Set the keyboard type to numeric
+                           />
                     </View>
                 </View>
+              {/*mwisho wa field*/}
 
 
 
-
+               
 
                 <View  style={{ marginTop:20 }}>
-                    <Text style={{ fontSize:20, marginLeft:3 }}>Customer Location</Text>
-                    < View style={globalstyles.input}>
-                        <FontAwesome style={globalstyles.icon} name='plus-circle'/>
-                        <TextInput style={globalstyles.textInput}  placeholder='Location' />
-                    </View>
+                   
+             
                 </View>
 
-                
-
 
             </View>
-
-            
-
+{/*mwisho wa form*/}
           
-            
-
-            <View style={globalstyles.ButtonConatiner}>
-                    <Pressable style={globalstyles.ButtonClose}  onPress={() => setModalVisible(false)} >
-                        <Text>CLOSE</Text>
-                    </Pressable>
-                    <Pressable style={globalstyles.ButtonAdd}  onPress={() => setModalVisible(false)} >
-                        <Text>CONFIRM</Text>
-                    </Pressable>
+  <View style={globalstyles.ButtonConatiner}>
+                    <TouchableOpacity style={globalstyles.ButtonClose}  
+                    onPress={() => setModalVisibleAddProduct(false)} >
+                        <Text style={{
+                          color:'white',
+                        }}>CLOSE</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                    style={globalstyles.ButtonAdd}  
+                    onPress={handleSubmit} >
+                        <Text style={{
+                          color:'white',
+                        }}>CONFIRM</Text>
+                    </TouchableOpacity>
             </View>
+
+{/*MWISHO WA ADD PRODUCT FORM*/}
+</ScrollView>
           </View>
+
+
         </View>
+
       </Modal>
 
 
@@ -395,7 +469,21 @@ if(item.FirstName.toLowerCase().includes(input.toLowerCase())){
 
 
 
+
+
     </View>
+
+
+    ):(
+
+<LotterViewScreen />
+
+)}
+
+    </>
+
+
+
   );
 };
 

@@ -74,7 +74,7 @@ return () => AbortCont.abort();
 },[url]);
 
 
-return { datas, isPending, error }
+return { datas,setDatas, isPending, error }
 
 
 }

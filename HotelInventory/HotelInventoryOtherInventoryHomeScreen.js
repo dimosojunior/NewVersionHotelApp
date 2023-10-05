@@ -364,10 +364,14 @@ return (
 
             <View style={globalstyles.ButtonConatiner}>
                     <Pressable style={globalstyles.ButtonClose}  onPress={() => setModalVisible(false)} >
-                        <Text>CLOSE</Text>
+                        <Text style={{
+                          color:'white',
+                        }}>CLOSE</Text>
                     </Pressable>
                     <Pressable style={globalstyles.ButtonAdd}  onPress={() => setModalVisible(false)} >
-                        <Text>CONFIRM</Text>
+                        <Text style={{
+                          color:'white',
+                        }}>CONFIRM</Text>
                     </Pressable>
             </View>
           </View>

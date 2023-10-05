@@ -6,23 +6,32 @@ export default function Card(props){
 
 	return(
 
-		<View >
+		
 
-
-    <View style={globalstyles.HomeHeaderContainer}>
+   
+<View style={{
+  justifyContent:'center',
+  alignItems:'center',
+  height:'10%',
+}}> 
 
  <Image 
-          source={require('../assets/i3.png')}  
-          style={globalstyles.HomeHeaderImage} 
+source={require('../assets/easy.jpg')}  
+style={{
+  width:'50%',
+  height:40,
+  marginBottom:20,
+  borderRadius:8,
+  marginTop:20,
+}} 
           />
-<Text style={globalstyles.HomeHeaderText}>easyFix</Text>
 
 
 </View>
 
-		
-		</View>
 
+		
+		
 
 		);
 }

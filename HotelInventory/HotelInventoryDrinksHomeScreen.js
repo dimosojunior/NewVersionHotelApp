@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import {globalstyles,images} from '../Styles/globalstyles';
 import { MaterialIcons } from '@expo/vector-icons';
+import LotterViewScreen from '../Screens/LotterViewScreen';
 
 import { Ionicons, FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
 import { Dimensions } from 'react-native';
@@ -32,7 +33,8 @@ import { EventRegister } from 'react-native-event-listeners';
 import React, {useState, useEffect, useContext} from 'react';
 import useFetch from '../useFetch';
 import {Picker} from '@react-native-picker/picker';
- import DrinksCart from '../CartComponents/DrinksCart';
+import FoodCart from '../CartComponents/FoodCart';
+import {EndPoint} from '../constantComponents/constants';
 
 // kama unatumia APIS toa hiyo projects prop
 
@@ -51,7 +53,7 @@ const {width, height} = Dimensions.get('window');
 const HotelInventoryDrinksHomeScreen =({navigation }) => {
 
 
-  const [isPending, setIsPending] = useState(false);
+  //const [isPending, setIsPending] = useState(false);
 
   
  
@@ -66,8 +68,11 @@ const [modalVisibleAddProduct, setModalVisibleAddProduct] = useState(false);
   
 
 
-const AddDrink =() =>{
-  console.log("Drink");
+
+    
+
+const AddFood =() =>{
+  console.log("Drinks");
    setModalVisibleAddProduct(true);
 }
 
@@ -78,47 +83,38 @@ const AddDrink =() =>{
 
 
 
+ // const [inventory, setInventory] = useState([
+ //  {
+ //    CategoryName:'Soft Drinks',
+ //    CategoryImage:require('../assets/room.png'),
+ //    Store:60,
+ //    id:'1'
+ //  },
 
- const [drinks, setDrinks] = useState([
-  {
-    DrinkName1:'Pepsi',
-    DrinkName2:'Big',
-    Unit:'Chupa 1',
-    DrinkImage:require('../assets/i2.png'),
-    FoodPrice:2000,
-    id:'1'
-  },
-
- {
-    DrinkName1:'Sayona',
-    Unit:'Chupa 1',
-    DrinkName2:'Twist',
-    DrinkImage:require('../assets/i3.png'),
-    FoodPrice:3000,
-    id:'2'
-  },
-
-   {
-    DrinkName1:'Mirinda',
-    DrinkName2:'Nyeusi',
-    Unit:'Chupa 1',
-    DrinkImage:require('../assets/i4.png'),
-    FoodPrice:4000,
-    id:'3'
-  },
+ //  {
+ //    CategoryName:'Beers',
+ //    CategoryImage:require('../assets/food.png'),
+ //    Store:100,
+ //    id:'2'
+ //  },
+ //  // {CategoryName:'Drinks',CategoryImage:require('../assets/drinks.png'),id:'6'},
+ //  // {CategoryName:'Others',CategoryImage:require('../assets/otherinentory.png'), id:'5'},
  
-  
-    ]);
-
+ //    ]);
 
 
  //FOR APIS
-//const { services:food, isPending, error } = useFetch(MyDomain+'/apis/Food/');
+const { datas:inventory,setDatas:setInventory, isPending, error } = useFetch(EndPoint+'/PostData/PostHotelDrinksCategories/');
 
 
 
 
-
+const [CategoryName, setCategoryName] = useState('');
+    const move = (CategoryName) =>{
+      setCategoryName(CategoryName);
+      console.log(CategoryName)
+      navigation.navigate('Hotel Inventory ' +CategoryName);
+    }
 
 
 
@@ -134,47 +130,13 @@ const AddDrink =() =>{
 
 
   return (
+     <>
+    {!isPending ? (
+
     <View style={globalstyles.AllListcontainer}>
 
 
-<MinorHeader title="Drinks" pressMe={AddDrink} screenName="Hotel Inventory" />
-
-
-
-
-
-
-{/*MWANZO WA VIEW YA SEARCH*/}
-
-      <View 
-      style={globalstyles.SearchContainer}
-      >
-        
-        <View
-          
-            
-       style={globalstyles.InputContainer}     
-            
-
-          >
-
-          <TouchableOpacity>
-          {/*<FontAwesome size={20} name="search" />*/}
-          
-          <TextInput
-          style={globalstyles.TextInput}
-          value={input} onChangeText ={(text) => setInput(text)}
-            
-            placeholder="Search drink"
-          />
-          </TouchableOpacity>
-        </View>
-       
-      </View>
-
-
-
-{/*MWISHO WA VIEW YA SEARCH*/}
+<MinorHeader title="Drinks" pressMe={AddFood} screenName="Hotel Inventory" />
 
 
 
@@ -182,136 +144,66 @@ const AddDrink =() =>{
 
 
 
-<DrinksCart />
 
 
 
 
-  <View style={globalstyles.CartListHeaderContainer}>
-    <Text style={globalstyles.CartListHeader}>Drinks</Text>
-    </View>
+
+
+
+
+{inventory && inventory.length > 0 ? (
 
 
       <FlatList
-        data={drinks}
+        data={inventory}
         renderItem={({item, index}) => {
 
-          // mwanzo kwa ajili ya search
-    if (input === ""){
-
+        
           return (
+           <>
+           <TouchableOpacity 
+             activeOpacity={1}
+             onPress={() => navigation.navigate('Hotel Inventory Drinks Products', item)}
+            >
             <View style={globalstyles.itemView}>
-
             <View
             style={globalstyles.FoodNameView}
 
             >
-                       <Text style={globalstyles.nameText}>{item.DrinkName1}</Text>
-                <Text style={globalstyles.descText}>{item.DrinkName2}</Text>
+                       <Text style={globalstyles.nameText}>{item.CategoryName}</Text>
+                
              </View>
-              <View style={globalstyles.nameView}>
+              
+
+               <View style={globalstyles.priceView}>
+                <Text style={globalstyles.UnitText}>
+                    {item.unit ? item.Unit : 'Chupa'} 
+                  </Text>
+                   </View>
                 
 
                 <View style={globalstyles.priceView}>
 
                 <Text style={globalstyles.UnitText}>
-                    {item.Unit}  
+                    Qty  
                   </Text>
 
                   <Text style={globalstyles.priceText}>
-                    {item.FoodPrice}/=
+                    {item.Store}
                   </Text>
                   
                 </View>
             
-
-              </View>
+           
               
-              <View 
-              style={globalstyles.IconContainer}
-              >
-
-                <TouchableOpacity
-                onPress={() => setModalVisible(true)}
-               >
-                <MaterialCommunityIcons 
-    name="gesture-tap-button"
-     size={30} 
-     color="green"
-    style={globalstyles.icon}
-
-     />
-                  
-                </TouchableOpacity>
-             </View>   
-             
-            </View>
-          );
-
-
-
-// hili bano la chini ni la if ya juu kama mtu akitype   
-}
-
-
-
-
-
-if(item.DrinkName1.toLowerCase().includes(input.toLowerCase())){
-
-
-
-
-
-
-
-     return (
-            <View style={globalstyles.itemView}>
-
-
-
-
-
-            <View
-            style={globalstyles.FoodNameView}
-
-            >
-                       <Text style={globalstyles.nameText}>{item.DrinkName1}</Text>
-                <Text style={globalstyles.descText}>{item.DrinkName2}</Text>
-             </View>
-              <View style={globalstyles.nameView}>
-                
-
-                <View style={globalstyles.priceView}>
-
-                  <Text style={globalstyles.priceText}>
-                    {item.FoodPrice}/=
-                  </Text>
-                  
-                </View>
+              
             
-
-              </View>
-              
-              <View 
-              style={globalstyles.IconContainer}
-              >
-
-                <TouchableOpacity
-                onPress={() => setModalVisible(true)}
-               >
-                <MaterialCommunityIcons 
-    name="gesture-tap-button"
-     size={30} 
-     color="green"
-    style={globalstyles.icon}
-
-     />
-                  
-                </TouchableOpacity>
-             </View>   
              
             </View>
+            </TouchableOpacity >
+            </>
+
           );
 
 
@@ -320,8 +212,6 @@ if(item.DrinkName1.toLowerCase().includes(input.toLowerCase())){
 
 
 
-// hili bano la chini ni la if ya pili mwisho
-  }
 
 
           // mabano ya chini ni kufunga render item
@@ -331,6 +221,14 @@ if(item.DrinkName1.toLowerCase().includes(input.toLowerCase())){
 
 
 
+ ) :(
+
+     <View style={globalstyles.NoProductContainerContainer}>
+  <Text style={globalstyles.NoProductText}>No Data</Text>
+</View>
+
+
+  )} 
 
 
 
@@ -339,98 +237,6 @@ if(item.DrinkName1.toLowerCase().includes(input.toLowerCase())){
 
 
 
-
-
-
-
-{/*MODAL FOR MAKING ORDER*/}
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-          <View style={globalstyles.ModalView}>
-            <Text style={{ marginLeft:90,fontSize:15 }}>ORDER PRODUCT</Text>
-
-            <View style={globalstyles.form}>
-                <View style={{ marginTop:20 }}>
-                    <Text style={{ fontSize:20, marginLeft:3 }}>Product Unit</Text>
-                    < View style={globalstyles.input}>
-                        <FontAwesome style={globalstyles.icon} name='pencil'/>
-                        <TextInput style={globalstyles.textInput}  placeholder='Product Unit' />
-                    </View>
-                </View>
-
-                <View  style={{ marginTop:20 }}>
-                    <Text style={{ fontSize:20, marginLeft:3 }}>Total Price</Text>
-                    < View style={globalstyles.input}>
-                        <FontAwesome style={globalstyles.icon} name='plus-circle'/>
-                        <TextInput style={globalstyles.textInput}  placeholder='Total Price' />
-                    </View>
-                </View>
-
-                <View  style={{ marginTop:20 }}>
-                   
-              < View style={globalstyles.inputTax}>
-                        <Text style={globalstyles.TaxType}>
-                            Tax Type
-                        </Text>
-
-                 <View style={globalstyles.picker}>
-
-                        
-                            <Picker
-                            style={globalstyles.pickerInput}
-                            selectedValue={selectedLanguage}
-                            onValueChange={(itemValue, itemIndex) =>
-                                setSelectedLanguage(itemValue)
-                            }>
-                            <Picker.Item label="Select Tax" value="Julius" />
-                             <Picker.Item label="Kasamka" value="Kasamka" />
-                             <Picker.Item label="Dimoso" value="Dimoso" />
-                             <Picker.Item label="Neema" value="Neema" />
-                                
-                            </Picker>
-
-                     </View>
-                      
-                        
-                        {/* <InputModeOptions placeholder="Select Tax"></InputModeOptions> */}
-                        {/* <TextInput style={globalstyles.textInput}  placeholder='Unit Price' /> */}
-                    </View>
-                </View>
-
-
-            </View>
-
-            <View style={{ marginTop:20 }}>
-                <Text style={{ fontSize:20, fontWeight:"bold" }}>Below are Optional Details</Text>
-            </View>
-
-            <View style={globalstyles.ButtonConatiner}>
-                    <Pressable style={globalstyles.ButtonScan}  onPress={() => setModalVisible(false)} >
-                        <Text>SCAN</Text>
-                    </Pressable>
-                    <Pressable style={globalstyles.ButtonBarcode}  onPress={() => setModalVisible(false)} >
-                        <Text>...or Enter Barcode</Text>
-                    </Pressable>
-            </View>
-            
-
-            <View style={globalstyles.ButtonConatiner}>
-                    <Pressable style={globalstyles.ButtonClose}  onPress={() => setModalVisible(false)} >
-                        <Text>CLOSE</Text>
-                    </Pressable>
-                    <Pressable style={globalstyles.ButtonAdd}  onPress={() => setModalVisible(false)} >
-                        <Text>CONFIRM</Text>
-                    </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
 
 
 
@@ -471,7 +277,7 @@ if(item.DrinkName1.toLowerCase().includes(input.toLowerCase())){
                 <View style={{ marginTop:20 }}>
                     <Text style={{ fontSize:20, marginLeft:3 }}>Product Name</Text>
                     < View style={globalstyles.input}>
-                        <FontAwesome style={globalstyles.icon} name='pencil'/>
+                        <FontAwesome style={globalstyles.InputIcon} name='pencil'/>
                         <TextInput style={globalstyles.textInput}  placeholder='Product Name' />
                     </View>
                 </View>
@@ -479,7 +285,7 @@ if(item.DrinkName1.toLowerCase().includes(input.toLowerCase())){
                 <View  style={{ marginTop:20 }}>
                     <Text style={{ fontSize:20, marginLeft:3 }}>Product Price</Text>
                     < View style={globalstyles.input}>
-                        <FontAwesome style={globalstyles.icon} name='plus-circle'/>
+                        <FontAwesome style={globalstyles.InputIcon} name='plus-circle'/>
                         <TextInput style={globalstyles.textInput}  placeholder='Product Price' />
                     </View>
                 </View>
@@ -499,10 +305,14 @@ if(item.DrinkName1.toLowerCase().includes(input.toLowerCase())){
 
             <View style={globalstyles.ButtonConatiner}>
                     <Pressable style={globalstyles.ButtonClose}  onPress={() => setModalVisibleAddProduct(false)} >
-                        <Text>CLOSE</Text>
+                        <Text  style={{
+                          color:'white'
+                        }}>CLOSE</Text>
                     </Pressable>
                     <Pressable style={globalstyles.ButtonAdd}  onPress={() => setModalVisibleAddProduct(false)} >
-                        <Text>ADD PRODUCT</Text>
+                        <Text  style={{
+                          color:'white'
+                        }}>ADD PRODUCT</Text>
                     </Pressable>
             </View>
           </View>
@@ -527,6 +337,20 @@ if(item.DrinkName1.toLowerCase().includes(input.toLowerCase())){
 
 
     </View>
+
+
+
+    
+      ):(
+
+<LotterViewScreen />
+
+)}
+
+    </>
+
+
+
   );
 };
 
@@ -550,6 +374,5 @@ export default HotelInventoryDrinksHomeScreen;
 
 
 const styles = StyleSheet.create({
-
 
 });

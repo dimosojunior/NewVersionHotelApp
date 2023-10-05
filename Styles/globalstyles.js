@@ -4,7 +4,6 @@ import { Dimensions } from 'react-native';
 import COLORS from '../constantComponents/colors';
 import {PrimaryButton} from '../constantComponents/Button';
 
-
 const marginBottomItem = 10;
 const paddingItem = 10;
 const imgHeight = 100;
@@ -18,7 +17,7 @@ const GlobalStyles =() => {
  
   return(
 
-    <View>
+    <View >
       <Text>Gloal Styles</Text>
     </View>
     );
@@ -39,13 +38,38 @@ export const globalstyles = StyleSheet.create({
     
   },
 
+
+  //---------------------ACTIVITY INDICATOR-------------
+
+ActivityIndicatorContainer:{
+  justifyContent:'center',
+  alignItems:'center',
+  marginTop:0,
+  flex:1,
+
+ height:height,
+ backgroundColor:'white',
+
+},
+ActivityIndicatorText:{
+  color:'red',
+  marginBottom:15,
+  marginTop:20,
+  fontSize:18,
+  fontWeight:'bold',
+
+
+},
+
+
 //------------------HOTEL CATEGORIES--------------
 
 categoriesComponentText:{
   fontSize:20,
   fontWeight:'bold',
   textAlign:'center',
-  paddingVertical:30,
+  paddingVertical:15,
+  color:'green'
 },
 
 
@@ -63,13 +87,13 @@ marginTop: 10,
 padding:2,
 paddingLeft: 1,
 backgroundColor: 'white',
-borderRadius: 20,
+borderRadius: 10,
 alignItems: 'center',
 flexDirection: 'row',
 marginBottom:10,
 elevation:3,
-borderColor:'black',
-borderWidth:2,
+borderColor:'green',
+borderWidth:1,
 
 shadowOffset:{width:1, height:1},
 shadowColor:'#333',
@@ -85,7 +109,7 @@ color:'black',
 fontWeight:'bold',
 width:Dimensions.get('window').width-100,
 backgroundColor:'white',
-padding:15,
+padding:8,
 borderRadius:10,
 },
   
@@ -121,6 +145,7 @@ borderRadius:10,
     height:50,
     backgroundColor:"green",
     borderRadius:5,
+
 
 },
 ButtonScan:{
@@ -163,12 +188,12 @@ inputTax:{
     flexDirection:"row",
     width:300,
     height:50,
-    backgroundColor:'#746C70',
+    backgroundColor:'green',
     // borderColor:"black",
     // borderWidth:1,
     alignItems:"center",
     padding:10,
-    borderRadius:1,
+    borderRadius:6,
     marginTop:10,
     justifyContent:'space-between'
  },
@@ -195,8 +220,8 @@ inputTax:{
        
    },
    TaxType:{
-       fontSize:20,
-       color:"black",
+       fontSize:16,
+       color:"white",
        fontWeight:'400'
    },
    open:{
@@ -211,6 +236,9 @@ inputTax:{
    },
 
 
+ButtonAddText:{
+  color:'white',
+},
 
 
 
@@ -256,18 +284,19 @@ HoteCategoriesHomeHeaderContainer:{
     borderRadius: 20,
     //justifyContent:'center',
     alignItems:'center',
-    backgroundColor:'#D9D9D9',
+    // backgroundColor:'#D9D9D9',
+    backgroundColor:'#fff',
     marginVertical:15,
     paddingVertical:18,
     paddingTop:30,
 
 
-    elevation:10,
+    elevation:15,
     //backgroundColor:'black',
-    shadowOffset:{width:1, height:1},
-    shadowColor:'#D9D9D9',
-    shadowOpacity:1,
-    shadowRadius:2,
+    shadowOffset:{width:0, height:0},
+    shadowColor:'green',
+    shadowOpacity:0,
+    shadowRadius:0,
     
   },
 
@@ -304,8 +333,8 @@ HoteCategoriesimageContainer:{
 
   HoteCategoriesnameText: {
     color: 'black',
-    // fontWeight: 'bold',
-    marginLeft: 15,
+    fontWeight: 'bold',
+    marginLeft: 0,
     fontSize:16,
     marginBottom:20,
     marginTop:10,
@@ -383,22 +412,22 @@ HomeHeaderContainer:{
 
   },
   listContainer: {
-    width: Dimensions.get('window').width / 2 - 18,
+    width: Dimensions.get('window').width / 2 - 20,
     //backgroundColor: 'black',
     margin: 10,
     borderRadius: 20,
     justifyContent:'center',
     alignItems:'center',
-    backgroundColor:'#D9D9D9',
-    marginVertical:15,
+    backgroundColor:'white',
+    elevation:10,
+        shadowColor:'green',
+        shadowOpacity:1,
+    marginVertical:6,
     paddingVertical:18,
     paddingTop:50,
 
-    elevation:10,
-    //backgroundColor:'black',
-    shadowOffset:{width:1, height:1},
-    shadowColor:'red',
-    shadowOpacity:1,
+    
+    
     shadowRadius:2,
     
   },
@@ -477,10 +506,10 @@ Customersimage:
 
   nameText: {
     color: 'black',
-    // fontWeight: 'bold',
-    marginLeft: 15,
+    fontWeight: 'bold',
+    marginLeft: 1,
     fontSize:16,
-    marginBottom:20,
+    marginBottom:0,
     // fontFamily: 'SerifRegular',
   },
  
@@ -581,8 +610,9 @@ Customersimage:
   //-----------------------HEADER.JS------------------
 
 
-   headerHeaderFile: {      
-        width:Dimensions.get('window').width,
+   headerHeaderFile: { 
+       //width:Dimensions.get('window').width,     
+        width:'100%',
         height:60,
         flexDirection: 'row',
         borderBottomColor:'#C0C0C0',
@@ -803,7 +833,7 @@ item: {
     shadowRadius: 30,
     paddingLeft: 10,
     marginHorizontal:0,
-    paddingVertical:5
+    paddingVertical:5,
   },
 
 
@@ -830,7 +860,23 @@ ImageRatings:{
 
 
 
+CartitemView:{
+    flex: 1,
+    flexDirection: 'row',
+    width: width-30,
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    elevation: 4,
+    elevation:10,
+        shadowColor:'green',
+        shadowOpacity:1,
+    marginTop: 2,
+    borderRadius: 10,
+    height: 70,
+    marginBottom: 10,
+    marginHorizontal:20,
 
+},
 
 
 
@@ -846,27 +892,35 @@ ImageRatings:{
     flexDirection: 'row',
     width: width-30,
     alignSelf: 'center',
-    backgroundColor: '#D9D9D9',
+    backgroundColor: 'white',
     elevation: 4,
-    marginTop: 10,
+    elevation:10,
+        shadowColor:'green',
+        shadowOpacity:1,
+    marginTop: 2,
     borderRadius: 10,
-    height: 100,
+    height: 70,
     marginBottom: 10,
     marginHorizontal:20,
   },
   ImageListContainer:{
-    justifyContent:'center'
+    justifyContent:'center',
+    width:'25%'
 
   },
   itemImage: {
-    width: 60,
+    width: '80%',
     height: 60,
     borderRadius: 10,
     margin: 5,
   },
   nameView: {
-    width: '53%',
-    margin: 10,
+    justifyContent:'center',
+    width:'75%'
+     //width: '43%',
+    // margin: 10,
+    
+
   },
   priceView: {
     flexDirection: 'column',
@@ -874,7 +928,8 @@ ImageRatings:{
     justifyContent:'center',
     marginTop:10,
     flex:1,
-  },
+    width:'35%',
+      },
  
   descText: {
     fontSize: 14,
@@ -886,6 +941,10 @@ ImageRatings:{
 
   },
   UnitText:{
+    fontSize: 14,
+    // color: 'green',
+    fontWeight: '700',
+    justifyContent:'center',
 
   },
   priceText: {
@@ -893,7 +952,7 @@ ImageRatings:{
     color: 'green',
     fontWeight: '700',
     justifyContent:'center',
-  },
+      },
   discountText: {
     fontSize: 17,
     fontWeight: '600',
@@ -913,14 +972,18 @@ ImageRatings:{
     justifyContent:'center',
     marginRight:0,
     flex:1,
+    alignItems:'flex-end',
+    width:'15%',
+    paddingRight:10,
 
   },
 
   FoodNameView:{
     marginRight:0,
-    flex:1,
+    // flex:1,
     marginLeft:10,
     justifyContent:'center',
+    width:'35%'
 
   },
 
@@ -944,6 +1007,30 @@ ImageRatings:{
       color:'red'
 
     },
+    NoCartItemContainer:{
+      alignItems:'center',
+
+    },
+
+
+
+  NoProductContainerContainer:{
+    justifyContent:'center',
+    marginTop:50,
+    alignItems:'center'
+
+  },
+
+  NoProductText:{
+    color:'green',
+    fontSize:16,
+    fontWeight:'bold'
+
+  },
+
+
+   
+
 
    CartContainer:{
     // flex:1,
@@ -1025,9 +1112,10 @@ CartActionButtonText:{
 },
 
 CartListHeaderContainer:{
-  marginVertical:10,
-  alignItems:'center',
+  marginVertical:1,
+  // alignItems:'center',
   elevation:5,
+  marginHorizontal:20,
 
 },
 CartListHeader:{
@@ -1053,7 +1141,7 @@ BookedUnitactionBtn:{
   marginVertical:20,
   width: 200,
     height: 40,
-    backgroundColor: COLORS.primary,
+    backgroundColor: 'green',
     borderRadius: 30,
     paddingHorizontal: 5,
     flexDirection: 'row',
@@ -1101,7 +1189,7 @@ UnitNoCartItem:{
     marginHorizontal: 20,
   },
   UnitcartCard: {
-    height: 100,
+    height: 70,
     elevation: 15,
     borderRadius: 10,
     backgroundColor: COLORS.white,
@@ -1114,7 +1202,7 @@ UnitNoCartItem:{
   UnitactionBtn: {
     width: 80,
     height: 30,
-    backgroundColor: COLORS.primary,
+    backgroundColor: 'green',
     borderRadius: 30,
     paddingHorizontal: 5,
     flexDirection: 'row',
@@ -1143,6 +1231,11 @@ UnitItemName1:{
 },
 UnitItemName2:{
   fontWeight: 'bold', fontSize: 16
+},
+UnitItemName2:{
+  fontSize: 12,
+  color:'green',
+  fontWeight:'bold'
 },
 UnitCartContainerCOntainer2:{
   height: 100,
@@ -1175,7 +1268,643 @@ UnitCartListHeaderContainer:{
 UnitCartListHeader:{
   fontSize:18,
   fontWeight:'bold'
-}
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// REPORTS STYLES-------------------------
+
+
+ReportKeyboardAvoidingView:{
+  width: "100%",
+  height: "100%",
+  backgroundColor: "#fff",
+  flex:1,
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-------------------REPORT SCREEN---------------------
+
+
+ ReportScreenreportCardHeader:{
+        fontWeight:'bold',
+        fontSize:20,
+
+    },
+    ReportScreencontainer:{
+        width: "95%",
+        paddingHorizontal:35,
+        paddingVertical:5,
+        marginVertical:20,
+        elevation:10,
+        shadowColor:'green',
+        shadowOpacity:1,
+
+        
+
+        alignSelf: "center",
+        borderRadius: 10,
+        // shadowOpacity: 0.5,
+        // shadowColor: "#000",
+        shadowOffset: {
+            height: 5,
+            width: 5
+        },
+        backgroundColor: "white",
+        marginVertical: 10
+    },
+  
+    ReportScreentitle:{
+        fontSize: 16,
+       
+        marginTop: 10
+    },
+    ReportScreendescription:{
+        fontSize: 16,
+        fontWeight: "400",
+        marginTop: 10
+    },
+    ReportScreendata:{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 10
+    },
+    ReportScreenheading:{
+
+    },
+    ReportScreenauthor:{
+        fontWeight: "bold",
+        fontSize: 15
+    },
+    ReportScreendate:{
+        fontWeight: "bold",
+        color: "#e63946",
+        fontSize: 15
+    },
+    ReportScreensource:{
+        color: "#e63946",
+        fontWeight: "bold",
+        fontSize: 18
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ReportScreenDatePickerContainer:{
+    flex: 1, 
+    alignItems: "center" ,
+    
+
+  },
+  
+ 
+  ReportScreentextSubHeader: {
+    fontSize: 20,
+    color: "#111",
+  },
+  ReportScreeninputBtn: {
+    borderWidth: 1,
+    borderRadius: 15,
+    borderColor: "#222",
+    height: 50,
+    paddingLeft: 8,
+    fontSize: 18,
+    justifyContent: "center",
+    marginTop: 14,
+  },
+  ReportScreensubmitBtn: {
+    backgroundColor: "green",
+    paddingVertical: 22,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 8,
+    paddingVertical: 12,
+    marginVertical: 16,
+    width:200,
+  },
+  ReportScreencenteredView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  ReportScreenmodalView: {
+    margin: 20,
+    backgroundColor: "#080516",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    padding: 35,
+    width: "90%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  ReportScreenEndDateContainer:{
+    marginTop:15,
+  },
+
+ReportScreenItemcontainer:{
+  padding: 5,
+  justifyContent:'space-between',
+  flexDirection:'row',
+
+},
+
+ReportScreenFilterReportContainer:{
+   position:"absolute",
+    bottom:10,
+    right:10,
+    backgroundColor:'green',
+    padding:10,
+    borderRadius:6,
+
+},
+ReportScreenFilterReportContainerText:{
+  color:'#fff'
+
+},
+
+
+ReportScreenFilterformContainer:{
+  flex: 1, 
+justifyContent: 'center', 
+alignItems: 'center', 
+backgroundColor: 'rgba(0, 0, 0, 0.2)' 
+
+},
+ReportScreenFilterText:{
+  marginLeft:90,fontSize:15
+},
+ReportCalenderContainer:{
+  width: "100%", 
+  paddingHorizontal: 4, 
+
+  marginTop: 14
+},
+ReportCalenderStartDateText:{
+  fontSize: 18
+},
+ReportCalenderEndDateText:{
+  fontSize: 18
+},
+
+
+
+
+ReportScreenItemscontainer2:{
+  // flexDirection:'row',
+  // alignItems:'center',
+  // width:'100%',
+  // flex:1,
+
+  padding: 5,
+  //ustifyContent:'space-between',
+  flexDirection:'row',
+  
+
+},
+
+ReportScreenIndividualItemLeftcontainer:{
+  width:'70%',
+  // flex:1,
+
+
+},
+ReportScreenIndividualItemRightcontainer:{
+  width:'30%',
+  // flex:1,
+
+},
+
+
+ ReportScreencontainer2:{
+        width: "100%",
+        paddingHorizontal:10,
+        paddingVertical:5,
+        marginVertical:10,
+        elevation:10,
+        shadowColor:'green',
+        shadowOpacity:1,
+
+        
+
+        alignSelf: "center",
+        borderRadius: 10,
+        // shadowOpacity: 0.5,
+        // shadowColor: "#000",
+        shadowOffset: {
+            height: 5,
+            width: 5
+        },
+        backgroundColor: "white",
+        
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------ORDER CART ITEMS PART----------
+ 
+  MakeOrderButton:{
+    fontSize:16,
+    backgroundColor:'green',
+    color:'white',
+    paddingHorizontal:30,
+    paddingVertical:10,
+    borderRadius:10,
+    fontWeight:'bold',
+    
+  },
+  OrderCheckOutContainer:{
+    flexDirection: 'row',
+  justifyContent: 'space-around',
+  marginVertical: 15,
+  alignItems:'center',
+  width:'90%',
+},
+CartOrderTotalPriceText:{
+  fontSize: 18, 
+  fontWeight: 'bold'
+},
+CartOrderTotalText:{
+  fontSize: 18, 
+  fontWeight: 'bold'
+
+},
+MakeOrderButtonContainer:{
+  marginBottom:15,
+  alignItems:'center'
+
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------------ALL PRODUCTS INVENTORY SCREENS---------
+
+
+//HOTEL CATEGORIES, ROW LIST  DISPLAY
+//CUSTOMERS, FOOD, DRINKS, OTHERS, ROOMS
+
+    InventoryAllListcontainer: {
+    flex: 1,
+
+  },
+  InventoryitemView: {
+    flex: 1,
+    flexDirection: 'row',
+    width: width-30,
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    elevation: 4,
+    elevation:10,
+        shadowColor:'green',
+        shadowOpacity:1,
+    marginTop: 2,
+    borderRadius: 10,
+    height: 80,
+    marginBottom: 10,
+    marginHorizontal:20,
+  },
+  InventoryImageListContainer:{
+    justifyContent:'center',
+    width:'25%'
+
+  },
+  InventoryitemImage: {
+    width: '80%',
+    height: 60,
+    borderRadius: 10,
+    margin: 5,
+  },
+  InventorynameView: {
+    justifyContent:'center',
+    width:'75%'
+     //width: '43%',
+    // margin: 10,
+    
+
+  },
+  InventorypriceView1: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent:'center',
+    marginTop:10,
+    flex:1,
+    width:'10%',
+      },
+
+   InventorypriceView2: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent:'center',
+    marginTop:10,
+    flex:1,
+    width:'20%',
+      },
+
+
+   InventorypriceView3: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent:'center',
+    marginTop:10,
+    flex:1,
+    width:'20%',
+      },
+ 
+  InventorydescText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  InventorynameText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  InventoryLastNameText:{
+    fontSize: 16,
+    fontWeight: '700'
+
+  },
+  InventoryUnitText:{
+    fontSize: 14,
+    // color: 'green',
+    fontWeight: '700',
+    justifyContent:'center',
+
+  },
+  InventorypriceText: {
+    fontSize: 18,
+    color: 'green',
+    fontWeight: '700',
+    justifyContent:'center',
+      },
+  InventorydiscountText: {
+    fontSize: 17,
+    fontWeight: '600',
+    textDecorationLine: 'line-through',
+    marginLeft: 5,
+  },
+  InventoryClickableIconicon: {
+    width: 50,
+    height: 50,
+    marginRight:50,
+
+  },
+
+
+
+ InventoryIconContainer:{
+    justifyContent:'center',
+    marginRight:0,
+    flex:1,
+    alignItems:'flex-end',
+    width:'10%',
+    paddingRight:10,
+
+  },
+
+  InventoryFoodNameView:{
+    marginRight:0,
+    // flex:1,
+    marginLeft:10,
+    justifyContent:'center',
+    width:'30%'
+
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//---------------REPORT FILTER MODAL------------------
+
+ FilterModalcontainer: {
+    flex: 1,
+    padding: 16,
+  },
+  FilterModalfilterButton: {
+    padding: 16,
+    backgroundColor: "#007BFF",
+    borderRadius: 8,
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  FilterModalfilterButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  FilterModalmodalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  FilterModalmodalContent: {
+    backgroundColor: "black",
+    padding: 10,
+    borderRadius: 8,
+    width: "90%",
+  },
+  FilterModalmodalTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign:'center',
+    backgroundColor:'green',
+    padding:5,
+    borderRadius:6,
+    color:'white',
+  },
+  FilterModalapplyButton: {
+    backgroundColor: "#007BFF",
+    padding: 10,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  FilterModalapplyButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  FilterModaltotalAmountText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 20,
+  },
+  FilterModalorderContainer: {
+    //backgroundColor: "#F8F8F8",
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 10,
+    elevation:10,
+    shadowColor:'green',
+    shadowOpacity:1,
+    flex:1,
+    flexDirection:'row',
+
+    
+
+    //alignSelf: "center",
+    borderRadius: 10,
+    // shadowOpacity: 0.5,
+    // shadowColor: "#000",
+    shadowOffset: {
+        height: 5,
+        width: 5
+    },
+    backgroundColor: "white",
+    marginVertical: 10
+  },
+
+
+ReportRangeText:{
+  color:'red',
+  fontSize:12,
+  fontWeight:'bold'
+
+},
+
+
+ProcessOrderReportScreenFilterReportContainer:{
+   position:"absolute",
+    bottom:10,
+    left:10,
+    backgroundColor:'yellow',
+    padding:10,
+    borderRadius:6,
+
+},
+ProcessOrderReportScreenFilterReportContainerText:{
+  color:'black'
+
+},
+
+
+
 
 
   });
