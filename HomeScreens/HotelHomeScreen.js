@@ -29,11 +29,9 @@ import { Picker } from '@react-native-picker/picker';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import Logo from '../Shared/Logo';
 import { AppColor } from '../constantComponents/colors'
+import { memo } from "react"
 
-export default function RestaurantCategoriesHomeScreen({ navigation }) {
-
-
-
+const HotelHomeScreen = ({ navigation }) => {
   const [isPending, setIsPending] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -48,64 +46,35 @@ export default function RestaurantCategoriesHomeScreen({ navigation }) {
     { CategoryName: 'Inventory', CategoryImage: require('../assets/inventory.png'), id: '2' },
 
   ]);
-
-  //FOR  APIS
-  //const { services:restaurantCategories, isPending, error } = useFetch(MyDomain+'/apis/RestaurantCategories/');
-
-
-
   return (
     <View style={globalstyles.container}>
       <ScrollView>
         <Card2>
-          <Text style={globalstyles.categoriesComponentText}>RESTAURANT</Text>
+          <Text style={globalstyles.categoriesComponentText}>HOTEL</Text>
         </Card2>
         {/*mwanzo wa view iliyofunika items zote*/}
         <View style={{
           flexDirection: 'row',
           flex: 1,
-
         }} >
-
-
-
-
-
           {/*mwanzo wa view iliyofunika items ya 1 na ya 2*/}
           <View style={{
-
             flex: 1,
             marginRight: 0,
             marginLeft: 10,
-
           }}>
-
-
-
-
-
-
-
             {/*-------------MWANZO WA ITEM 1---------*/}
             <TouchableOpacity
               activeOpacity={1}
-
-              onPress={() => navigation.navigate('Restaurant NewSale')}>
-
+              onPress={() => navigation.navigate('Hotel NewSale')}>
               <MotiView
                 style={[{
                   height: 220,
-
-
                 }, globalstyles.HoteCategorieslistContainer]}
                 from={{ opacity: 0, translateY: 50 }}
                 animate={{ opacity: 1, translateY: 0 }}
               >
-
-
                 <View style={[{
-
-
                 }, globalstyles.HoteCategoriesimageContainer]}>
 
                   <FontAwesome name="edit" size={100} color={AppColor} />
@@ -150,7 +119,7 @@ export default function RestaurantCategoriesHomeScreen({ navigation }) {
             {/*-------------MWANZO WA ITEM 2---------*/}
             <TouchableOpacity
               activeOpacity={1}
-              onPress={() => navigation.navigate('Restaurant Customers')}>
+              onPress={() => navigation.navigate('Hotel Customers')}>
 
               <MotiView
                 style={[{
@@ -227,7 +196,7 @@ export default function RestaurantCategoriesHomeScreen({ navigation }) {
             {/*-------------MWANZO WA ITEM 3---------*/}
             <TouchableOpacity
               activeOpacity={1}
-              onPress={() => navigation.navigate('Restaurant Reports')}>
+              onPress={() => navigation.navigate('Hotel Reports')}>
 
               <MotiView
                 style={[{
@@ -286,7 +255,7 @@ export default function RestaurantCategoriesHomeScreen({ navigation }) {
             {/*-------------MWANZO WA ITEM 4---------*/}
             <TouchableOpacity
               activeOpacity={1}
-              onPress={() => navigation.navigate('Restaurant Inventory')}>
+              onPress={() => navigation.navigate('Hotel Inventory')}>
 
               <MotiView
                 style={[{
@@ -459,14 +428,7 @@ export default function RestaurantCategoriesHomeScreen({ navigation }) {
 
 
     </View>
-  );
+  )
 }
 
-const styles = StyleSheet.create({
-
-
-
-
-
-
-});
+export default memo(HotelHomeScreen)

@@ -8,17 +8,18 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import MyDrawer from './Drawer/drawer';
 
-import { Ionicons,MaterialIcons,AntDesign, FontAwesome, FontAwesome5} from '@expo/vector-icons';
+import { Ionicons, MaterialIcons, AntDesign, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { EventRegister } from 'react-native-event-listeners';
+import MyStack from './Stack/Stack';
 export default function App() {
 
   const [userToken, setUserToken] = useState('');
@@ -37,32 +38,16 @@ export default function App() {
   }, []);
 
   return (
-    <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen
-        name="MainScreen"
-        children={props=><MyDrawer userToken={userToken} setUserToken={setUserToken}/>}
-        options={{
-          title:"",
-          // headerShown:false,
-          header:()=>(
-            <View style={{paddingTop:Dimensions.get("window").height*0.05}}></View>
-          )
-        }}
-        />
-        </Stack.Navigator>
-        <StatusBar style="dark" />
-    </NavigationContainer>
+    <MyStack />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
     // backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
-    marginTop:30,
+    marginTop: 30,
   },
 });

@@ -1,30 +1,30 @@
 
-import { StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { Ionicons, FontAwesome} from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 // This import used to change color
 import { EventRegister } from 'react-native-event-listeners';
 
-import React, {useState, useEffect, useContext} from 'react';
-import {globalstyles, images} from '../Styles/globalstyles';
+import React, { useState, useEffect, useContext } from 'react';
+import { globalstyles, images } from '../Styles/globalstyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function AddMinorHeader({title,pressMe,screenName}) {
+export default function AddMinorHeader({ title, pressMe, screenName }) {
 
-  
-const navigation = useNavigation();
 
- const goBackPage = () =>{
-    navigation.navigate(screenName);
+  const navigation = useNavigation();
+
+  const goBackPage = () => {
+    navigation.goBack();
 
   }
 
 
-    const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     fetchUserData();
@@ -36,7 +36,7 @@ const navigation = useNavigation();
       if (userDataJSON) {
         const parsedUserData = JSON.parse(userDataJSON);
         setUserData(parsedUserData);
-        
+
         console.log(parsedUserData);
         console.log(userDataJSON);
       }
@@ -47,7 +47,6 @@ const navigation = useNavigation();
 
 
   return (
-    
 
 
 
@@ -56,67 +55,69 @@ const navigation = useNavigation();
 
 
 
-<View 
-style={{
-  //backgroundColor:'black',
-  flexDirection:'row',
-  alignItems:'center',
-  justifyContent:'space-between',
-  paddingVertical:10,
-  borderBottomColor:'#C0C0C0',
-        borderBottomWidth:2,
-}}
->
-{/*mwanzo wa view ya icon na title*/}
 
-<View 
-style={{
-  //backgroundColor:'black',
-  flexDirection:'row',
-  alignItems:'center',
-  // justifyContent:'space-around',
-  
-}}
->
-<Ionicons name='arrow-back' 
-      size={32} onPress={goBackPage}
-      color="black"
+    <View
       style={{
-        marginLeft: 20,
+        //backgroundColor:'black',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingVertical: 10,
+        borderBottomColor: '#C0C0C0',
+        borderBottomWidth: 2,
+        paddingTop: Dimensions.get("window").height * 0.04
       }}
+    >
+      {/*mwanzo wa view ya icon na title*/}
+
+      <View
+        style={{
+          //backgroundColor:'black',
+          flexDirection: 'row',
+          alignItems: 'center',
+          // justifyContent:'space-around',
+
+        }}
+      >
+        <Ionicons name='arrow-back'
+          size={32} onPress={goBackPage}
+          color="black"
+          style={{
+            marginLeft: 20,
+          }}
         />
 
-    <Text style={globalstyles.headerTextArticleHeaderFile
-    
-    }>{title}</Text>
-</View>
+        <Text style={globalstyles.headerTextArticleHeaderFile
 
-{userData && userData.is_admin === true &&(
-<View >
-    <FontAwesome name='plus' 
-      size={20} onPress={pressMe}
-      color="black"
-      style={{
-        marginLeft: 10,
-      }}
-        
-  style={globalstyles.headerImageArticleHeaderFile} />
+        }>{title}</Text>
+      </View>
 
-</View>)}
-     
+      {userData && userData.is_admin === true && (
+        <View >
+          <FontAwesome name='plus'
+            size={20} onPress={pressMe}
+            color="black"
+            style={{
+              marginLeft: 10,
+            }}
 
-  
-</View>
-// {mwisho wa view ya image na icon}
+            style={globalstyles.headerImageArticleHeaderFile} />
+
+        </View>)}
 
 
+
+    </View>
+    // {mwisho wa view ya image na icon}
 
 
 
 
 
 
-// {MWISHO WA HEADER}
+
+
+    // {MWISHO WA HEADER}
 
 
 
@@ -130,7 +131,7 @@ style={{
 }
 
 const styles = StyleSheet.create({
-    
 
-  });
+
+});
 

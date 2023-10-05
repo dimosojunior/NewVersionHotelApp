@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View,Dimensions, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Dimensions, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { EndPoint } from '../constantComponents/constants';
@@ -9,16 +9,16 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 
 import COLORS from '../constantComponents/colors';
-import {PrimaryButton} from '../constantComponents/Button';
+import { PrimaryButton } from '../constantComponents/Button';
 
-import { Ionicons, FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
-import {globalstyles,images} from '../Styles/globalstyles';
+import { Ionicons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { globalstyles, images } from '../Styles/globalstyles';
 import Background from '../AccountScreens/PageStyling/Background';
 import Btn from '../AccountScreens/PageStyling/Btn';
-import {black} from '../AccountScreens/PageStyling/Constants';
+import { black } from '../AccountScreens/PageStyling/Constants';
 import LoginField from '../AccountScreens/PageStyling/LoginField';
 
-export default function PreLoaderScreen({navigation}) {
+export default function PreLoaderScreen({ navigation }) {
   //const navigation = useNavigation();
   const [userToken, setUserToken] = useState('');
   const [error, setError] = useState(null);
@@ -43,12 +43,16 @@ export default function PreLoaderScreen({navigation}) {
   );
 
   useEffect(() => {
-    checkLoggedIn();
+    setTimeout(() => {
+      checkLoggedIn();
+    }, 1000);
   }, [userToken]);
 
   const checkLoggedIn = async () => {
     const token = await AsyncStorage.getItem('userToken');
-    if (token) {
+    if (!token) {
+      navigation.replace('Signin Stack');
+    } else if (token !== null) {
       try {
         const userResponse = await axios.get(
           EndPoint + '/Account/user_data/',
@@ -60,13 +64,15 @@ export default function PreLoaderScreen({navigation}) {
         );
 
         const userData = userResponse.data;
-        navigation.navigate('Home Stack', { userData });
+        // navigation.navigate('Home Stack', { userData });
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Home Stack' }],
+        });
       } catch (error) {
         setError(error);
         handleErrorMessage(error);
       }
-    } else {
-      navigation.navigate('Signin Stack');
     }
   };
 
@@ -77,7 +83,7 @@ export default function PreLoaderScreen({navigation}) {
         setErrorMessage('Authentication Error: You are not authorized.');
       } else if (error.response.status === 404) {
         setErrorMessage('Not Found: The requested resource was not found.');
-        
+
       } else {
         setErrorMessage('An error occurred while processing your request.');
       }
@@ -90,16 +96,16 @@ export default function PreLoaderScreen({navigation}) {
 
   const { width, height } = Dimensions.get('window');
 
- if (errorMessage) {
+  if (errorMessage) {
     return (
       <View style={styles.container}>
         <Text style={styles.errorText}>{errorMessage}</Text>
 
-         <TouchableOpacity
+        <TouchableOpacity
           onPress={() => navigation.replace('Signin Stack')}
-          > 
+        >
           <Btn textColor='white' bgColor={black} btnLabel="Login" />
-         </TouchableOpacity>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -109,12 +115,12 @@ export default function PreLoaderScreen({navigation}) {
     <View style={styles.container}>
 
 
-   
-     
-     <LottieView
-  style={{
-    
-  }}
+
+
+      <LottieView
+        style={{
+
+        }}
         source={require('../assets/Loading/loading5.json')} // Replace with your animation JSON file
         autoPlay
         loop
